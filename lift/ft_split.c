@@ -6,13 +6,13 @@
 /*   By: marianga <marianga@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:49:38 by marianga          #+#    #+#             */
-/*   Updated: 2024/03/19 16:49:41 by marianga         ###   ########.fr       */
+/*   Updated: 2024/03/21 14:42:25 by marianga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	free_split(char **split, size_t count)
+static void	free_split(char **split, size_t count)
 {
 	while (count > 0)
 	{
@@ -21,7 +21,7 @@ void	free_split(char **split, size_t count)
 	}
 }
 
-size_t	get_word_count(char const *s, char c)
+static size_t	get_word_count(char const *s, char c)
 {
 	size_t	count;
 	size_t	i;
@@ -40,7 +40,7 @@ size_t	get_word_count(char const *s, char c)
 	return (count);
 }
 
-char	**fill_split(char **split, char const *s, char c, size_t word_count)
+static char	**fill_split(char **split, char const *s, char c, size_t word_count)
 {
 	size_t	i;
 	size_t	start;
@@ -89,7 +89,9 @@ char	**ft_split(char const *s, char c)
 	char *s = ",,,,Hola,,que,tal,,,,estas";
 	char c = ',';
 	char **split = ft_split(s, c);
-	for (int i = 0; split[i]; i++)
+	for (int i = 0; 
+		split[i]; 
+		i++)
 	{
 		printf("%s\n", split[i]);
 	}
@@ -98,7 +100,9 @@ char	**ft_split(char const *s, char c)
 	char *d = "     Hola  que   tal  estas";
 	char b = ' ';
 	char **split1 = ft_split(d, b);
-	for (int i = 0; split1[i]; i++)
+	for (int i = 0; 
+		split1[i]; 
+		i++)
 	{
 		printf("%s\n", split1[i]);
 	}
