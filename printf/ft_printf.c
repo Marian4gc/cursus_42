@@ -18,29 +18,45 @@ int	ft_putchar(char c)
 	return (1);
 }
 
-int	ft_set_print(char c, va_list list)
+int ft_print_pointer(unsigned long ptr)
 {
-	int		count;
+    int count;
 
 	count = 0;
-	if (c == 'c')
-		count += ft_putchar(va_arg(list, int));
-	else if (c == 's')
-		count += ft_putstr(va_arg(list, char *));
-	else if (c == 'd' || c == 'i')
-		count += ft_putnbr(va_arg(list, int));
-	else if (c == 'u')
-		count += ft_put_uint(va_arg(list, unsigned int));
-	else if (c == '%')
-		count += ft_putchar('%');
-	else if (c == 'x' || c == 'X')
-		count += ft_puthexa(va_arg(list, int), c);
+    if (ptr == 0)
+        count += ft_putstr("(nil)");
+    else
+    {
+        count += ft_putstr("0x");
+        count += ft_putptr(ptr);
+    }
+    return (count);
+}
+
+int ft_set_print(char c, va_list list)
+{
+    int count;
+	unsigned long ptr;
+
+	count = 0;
+    if (c == 'c')
+        count += ft_putchar(va_arg(list, int));
+    else if (c == 's')
+        count += ft_putstr(va_arg(list, char *));
+    else if (c == 'd' || c == 'i')
+        count += ft_putnbr(va_arg(list, int));
+    else if (c == 'u')
+        count += ft_put_uint(va_arg(list, unsigned int));
+    else if (c == '%')
+        count += ft_putchar('%');
+    else if (c == 'x' || c == 'X')
+        count += ft_puthexa(va_arg(list, unsigned int), c);
 	else if (c == 'p')
-	{
-		count += ft_putstr("0x");
-		count += ft_putptr(va_arg(list, unsigned long));
-	}
-	return (count);
+    {
+        ptr = va_arg(list, unsigned long);
+        count += ft_print_pointer(ptr);
+    }
+    return (count);
 }
 
 int	ft_check(char c)
@@ -65,23 +81,25 @@ int	ft_printf(const char *format, ...)
 	int			count;
 
 	va_start(list, format);
+	if (!format)
+		return (0);
 	count = 0;
-	while (*format)
+	while (*format != '\0')
 	{
 		if (*format == '%' && ft_check(*(format + 1)))
-		{
-			format++;
-			count += ft_set_print(*format, list);
-		}
-		else
-			count += ft_putchar(*format);
-		format++;
+        {
+            format++;
+            count += ft_set_print(*format, list);
+        }
+        else
+            count += ft_putchar(*format);
+        format++;
 	}
 	va_end(list);
 	return (count);
 }
 
-int main() {
+/*int main() {
 	char c = 'A';
 	char *s = "Hello, World!";
 	int d = -42;
@@ -128,7 +146,7 @@ int main() {
     ft_printf("Copia:    '%%%d'\n", c);
 
 	return 0;
-}
+}*/
 
 /*int main ()
 {
