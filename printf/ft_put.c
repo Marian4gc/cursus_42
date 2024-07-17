@@ -81,27 +81,10 @@ int	ft_putptr(unsigned long int n)
 
 	s = "0123456789abcdef";
 	count = 0;
+	if (n == 0)
+		return (0);
 	if (n > 15)
 		count += ft_putptr(n / 16);
 	count += ft_putchar(s[n % 16]);
 	return (count);
 }
-
-/*int	ft_putptr(unsigned long int n)
-{
-	int		count;
-	char	*s;
-
-	s = "0123456789abcdef";
-	count = 0;
-	if (n == 0)
-	{
-		count += ft_putstr("(nil)"); 
-		return (count);
-	}
-	count += ft_putstr("0x");
-	if (n > 15)
-		count += ft_putptr(n / 16);
-	count += ft_putchar(s[n % 16]);
-	return (count);
-}*/
