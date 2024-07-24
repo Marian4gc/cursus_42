@@ -6,17 +6,30 @@
 /*   By: marianga <marianga@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:21:56 by marianga          #+#    #+#             */
-/*   Updated: 2024/07/23 13:20:29 by marianga         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:06:48 by marianga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*ft_read_and_keep(int fd, char *rest_text)
+static char	*ft_actualize_rest_text(char *rest_text, char *buffer)
 {
-	char	buffer[BUFFER_SIZE +1];
-	int		bytes_read;
 	char	*temp;
+
+	if (!rest_text)
+			rest_text = ft_strdup(buffer);
+		else
+		{
+			temp = ft_strjoin(rest_text, buffer);
+			free(rest_text);
+			rest_text = temp;
+		}
+	return (rest_text);
+}
+
+static char	*ft_read_to_buffer(int fd, char *buffer, char *rest_text)
+{
+	int		bytes_read;
 	int		found_newline;
 
 	found_newline = 0;
@@ -26,6 +39,48 @@ static char	*ft_read_and_keep(int fd, char *rest_text)
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
 			return (NULL);
+		buffer[bytes_read] = '\0';
+		rest_text = ft_actualize_rest_text(rest_text, buffer);
+		if (!rest_text)
+			return (NULL);
+		if (ft_strchr(buffer, '\n'))
+			found_newline = 1;
+	}
+	return (rest_text);
+}
+
+static char	*ft_read_and_keep(int fd, char *rest_text)
+{
+	char	*buffer;
+
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
+		return (NULL);
+	rest_text = ft_read_to_buffer(fd, buffer, rest_text);
+	free(buffer);
+	return (rest_text);
+}
+
+/* static char	*ft_read_and_keep(int fd, char *rest_text)
+{
+	char	*buffer;
+	int		bytes_read;
+	char	*temp;
+	int		found_newline;
+
+	found_newline = 0;
+	bytes_read = 1;
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (buffer == NULL)
+		return (NULL);
+	while (bytes_read > 0 && !found_newline)
+	{
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read < 0)
+		{
+			free(buffer);
+			return (NULL);
+		}
 		buffer[bytes_read] = '\0';
 		if (!rest_text)
 			rest_text = ft_strdup(buffer);
@@ -38,8 +93,9 @@ static char	*ft_read_and_keep(int fd, char *rest_text)
 		if (ft_strchr(buffer, '\n'))
 			found_newline = 1;
 	}
+	free(buffer);
 	return (rest_text);
-}
+} */
 
 static char	*ft_extract_line(char **rest_text)
 {
@@ -93,7 +149,7 @@ int main(void)
     char *line;
 
     // Abre el archivo en modo de solo lectura
-    fd = open("test.txt", O_RDONLY);
+    fd = open("gnlTester/files/big_line_with_nl", O_RDONLY);
     if (fd < 0)
     {
         perror("Error opening file");
