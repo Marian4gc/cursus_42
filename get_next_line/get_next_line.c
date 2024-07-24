@@ -6,7 +6,7 @@
 /*   By: marianga <marianga@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:21:56 by marianga          #+#    #+#             */
-/*   Updated: 2024/07/24 12:06:48 by marianga         ###   ########.fr       */
+/*   Updated: 2024/07/24 13:04:17 by marianga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ static char	*ft_actualize_rest_text(char *rest_text, char *buffer)
 	char	*temp;
 
 	if (!rest_text)
-			rest_text = ft_strdup(buffer);
-		else
-		{
-			temp = ft_strjoin(rest_text, buffer);
-			free(rest_text);
-			rest_text = temp;
-		}
+		rest_text = ft_strdup(buffer);
+	else
+	{
+		temp = ft_strjoin(rest_text, buffer);
+		free(rest_text);
+		rest_text = temp;
+	}
 	return (rest_text);
 }
 
@@ -54,48 +54,12 @@ static char	*ft_read_and_keep(int fd, char *rest_text)
 	char	*buffer;
 
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buffer)
+	if (buffer == NULL)
 		return (NULL);
 	rest_text = ft_read_to_buffer(fd, buffer, rest_text);
 	free(buffer);
 	return (rest_text);
 }
-
-/* static char	*ft_read_and_keep(int fd, char *rest_text)
-{
-	char	*buffer;
-	int		bytes_read;
-	char	*temp;
-	int		found_newline;
-
-	found_newline = 0;
-	bytes_read = 1;
-	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (buffer == NULL)
-		return (NULL);
-	while (bytes_read > 0 && !found_newline)
-	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read < 0)
-		{
-			free(buffer);
-			return (NULL);
-		}
-		buffer[bytes_read] = '\0';
-		if (!rest_text)
-			rest_text = ft_strdup(buffer);
-		else
-		{
-			temp = ft_strjoin(rest_text, buffer);
-			free(rest_text);
-			rest_text = temp;
-		}
-		if (ft_strchr(buffer, '\n'))
-			found_newline = 1;
-	}
-	free(buffer);
-	return (rest_text);
-} */
 
 static char	*ft_extract_line(char **rest_text)
 {
@@ -103,9 +67,9 @@ static char	*ft_extract_line(char **rest_text)
 	char	*temp;
 	size_t	len;
 
-    if (!*rest_text)
-        return (NULL);
-    len = 0;
+	if (!*rest_text)
+		return (NULL);
+	len = 0;
 	while ((*rest_text)[len] != '\n' && (*rest_text)[len] != '\0')
 		len++;
 	if ((*rest_text)[len] == '\n')
@@ -143,13 +107,13 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-int main(void)
+/* int main(void)
 {
     int fd;
     char *line;
 
     // Abre el archivo en modo de solo lectura
-    fd = open("gnlTester/files/big_line_with_nl", O_RDONLY);
+    fd = open("gnlTester/files/big_line_no_nl", O_RDONLY);
     if (fd < 0)
     {
         perror("Error opening file");
@@ -157,13 +121,20 @@ int main(void)
     }
 
     // Lee y muestra cada línea del archivo
-    while ((line = get_next_line(fd)) != NULL)
+	//fd = 444;
+	line = get_next_line(fd);
+
+	if (line == NULL)
+		printf("Ha devuelto NULL\n");
+	
+    while (line != NULL)
     {
-        printf("%s", line);
+		printf("%s", line);
         free(line); // Libera la memoria de la línea leída
+		line = get_next_line(fd);
     }
 
     // Cierra el archivo
     close(fd);
     return (0);
-}
+} */

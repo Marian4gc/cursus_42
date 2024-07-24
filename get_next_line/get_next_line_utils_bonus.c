@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marianga <marianga@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/23 09:14:26 by marianga          #+#    #+#             */
-/*   Updated: 2024/07/24 12:16:23 by marianga         ###   ########.fr       */
+/*   Created: 2024/07/24 13:10:03 by marianga          #+#    #+#             */
+/*   Updated: 2024/07/24 13:14:12 by marianga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *str)
 {
@@ -102,3 +102,4 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	result[i] = '\0';
 	return (result);
 }
+
