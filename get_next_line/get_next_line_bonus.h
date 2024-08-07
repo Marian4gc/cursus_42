@@ -15,6 +15,7 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 32
+# define MAX_FD 1024
 # endif
 
 # include <stdlib.h>
