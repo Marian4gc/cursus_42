@@ -13,9 +13,6 @@
 #include "get_next_line_bonus.h"
 
 # define MAX_FD 1024
-#define FILE1 "file1.txt"
-#define FILE2 "file2.txt"
-#define FILE3 "file3.txt"
 
 static char	*ft_actualize_rest_text(char *rest_text, char *buffer)
 {
@@ -110,66 +107,4 @@ char	*get_next_line(int fd)
         return (NULL);
     }
     return (line);
-}
-
-int main(void)
-{
-    int fd1, fd2, fd3;
-    char *line;
-
-    // Abre tres archivos en modo de solo lectura
-    fd1 = open(FILE1, O_RDONLY);
-    if (fd1 < 0)
-    {
-        perror("Error opening file1");
-        return (1);
-    }
-    
-    fd2 = open(FILE2, O_RDONLY);
-    if (fd2 < 0)
-    {
-        perror("Error opening file2");
-        close(fd1);
-        return (1);
-    }
-    
-    fd3 = open(FILE3, O_RDONLY);
-    if (fd3 < 0)
-    {
-        perror("Error opening file3");
-        close(fd1);
-        close(fd2);
-        return (1);
-    }
-
-    // Lee y muestra líneas de file1
-    printf("Reading from file1:\n");
-    while ((line = get_next_line(fd1)) != NULL)
-    {
-        printf("%s", line);
-        free(line); // Libera la memoria de la línea leída
-    }
-
-    // Lee y muestra líneas de file2
-    printf("Reading from file2:\n");
-    while ((line = get_next_line(fd2)) != NULL)
-    {
-        printf("%s", line);
-        free(line); // Libera la memoria de la línea leída
-    }
-
-    // Lee y muestra líneas de file3
-    printf("Reading from file3:\n");
-    while ((line = get_next_line(fd3)) != NULL)
-    {
-        printf("%s", line);
-        free(line); // Libera la memoria de la línea leída
-    }
-
-    // Cierra los archivos
-    close(fd1);
-    close(fd2);
-    close(fd3);
-
-    return (0);
 }
