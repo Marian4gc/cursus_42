@@ -12,8 +12,6 @@
 
 #include "get_next_line_bonus.h"
 
-# define MAX_FD 1024
-
 static char	*ft_actualize_rest_text(char *rest_text, char *buffer)
 {
     char	*temp;
